@@ -1,3 +1,4 @@
+using Azumo.BaseComponents;
 using Azumo.BaseComponents.PipelineModules;
 
 namespace TestProject1
@@ -18,6 +19,10 @@ namespace TestProject1
             pipeline.ExecuteAsync(result);
 
             Assert.AreEqual("TestProcess01TestProcess02", result.Result);
+
+            SimpleConfigurationFile.Initialize();
+            SimpleConfigurationFile.Write("TestResult", result.Result);
+            SimpleConfigurationFile.End();
         }
     }
 
