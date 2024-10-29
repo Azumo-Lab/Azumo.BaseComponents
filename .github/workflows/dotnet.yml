@@ -27,5 +27,5 @@ jobs:
     - name: Pack
       uses: brandedoutcast/publish-nuget@v2.5.5
       with:
-        NUGET_KEY: ${{secrets.NEGETAPI}}
+        NUGET_KEY: ${{ secrets.NEGETAPI }}
         PROJECT_FILE_PATH: Azumo.BaseComponents/Azumo.BaseComponents.csproj
