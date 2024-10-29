@@ -30,6 +30,14 @@ namespace System
         /// <summary>
         /// 
         /// </summary>
+        public class ConsoleText
+        {
+            public string Text { get; set; } = string.Empty;
+            public ConsoleColor? Color { get; set; } = null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
         static AzumoConsole()
         {
             Console.OutputEncoding = Encoding.UTF8;
@@ -91,6 +99,19 @@ namespace System
             string str = Console.ReadLine() ?? string.Empty;
             Console.WriteLine();
             return str;
+        }
+
+        public static void Write(ConsoleText[] consoleText)
+        {
+            foreach (ConsoleText item in consoleText)
+            {
+                if (item.Color == null)
+                    Console.ResetColor();
+                else
+                    Console.ForegroundColor = item.Color.Value;
+                Console.Write(item.Text);
+            }
+            Console.ResetColor();
         }
 
         /// <summary>
