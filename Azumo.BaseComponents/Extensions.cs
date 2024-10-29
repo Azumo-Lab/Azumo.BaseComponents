@@ -16,6 +16,8 @@
 //along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------------------------
 #pragma warning disable IDE0130 // 命名空间与文件夹结构不匹配
+using System.Collections.Generic;
+
 namespace System
 #pragma warning restore IDE0130 // 命名空间与文件夹结构不匹配
 {
@@ -24,12 +26,41 @@ namespace System
     /// </summary>
     public static class Extensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="paramName"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void ThrowIfNull(this object obj, string paramName)
         {
             if (obj == null)
-            {
                 throw new ArgumentNullException(paramName);
-            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="paramName"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void ThrowIfNullOrEmpty(this string str, string paramName)
+        {
+            if (string.IsNullOrEmpty(str))
+                throw new ArgumentNullException(paramName);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="paramName"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static void ThrowIfNullOrEmpty<T>(this List<T> list, string paramName)
+        {
+            if(list == null || list.Count == 0)
+                throw new ArgumentNullException(paramName);
         }
     }
 }
