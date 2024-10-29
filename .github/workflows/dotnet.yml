@@ -25,7 +25,4 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release
     - name: Pack
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-        NUGET_KEY: ${{ secrets.NUGET_TOKEN }}
-        PROJECT_FILE_PATH: Azumo.BaseComponents/Azumo.BaseComponents.csproj
+      run: dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
