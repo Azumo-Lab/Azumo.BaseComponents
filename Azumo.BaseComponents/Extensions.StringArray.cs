@@ -15,25 +15,29 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------------------------
-namespace Azumo.BaseComponents.PipelineModules
+using System.Collections.Generic;
+
+namespace System
 {
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IPipelineBuilder<T>
+    public static partial class Extensions
     {
         /// <summary>
-        /// 
+        /// 将数组转换成字典
         /// </summary>
+        /// <param name="args"></param>
         /// <returns></returns>
-        IPipeline<T> BuildPipeline();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="process"></param>
-        /// <returns></returns>
-        IPipelineBuilder<T> AddProcess(IPipelineProcess<T> process);
+        public static Dictionary<string, string> ToDictionary(this string[] args)
+        {
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            for (int i = 0; i < args.Length; i++)
+                if (i + 1 >= args.Length)
+                    result.Add(args[i], string.Empty);
+                else
+                    result.Add(args[i], args[++i]);
+            return result;
+        }
     }
 }

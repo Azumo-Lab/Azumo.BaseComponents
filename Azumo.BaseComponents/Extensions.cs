@@ -15,17 +15,15 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------------------------
-#pragma warning disable IDE0130 // 命名空间与文件夹结构不匹配
 using System.Collections.Generic;
 using System.IO;
 
 namespace System
-#pragma warning restore IDE0130 // 命名空间与文件夹结构不匹配
 {
     /// <summary>
     /// 
     /// </summary>
-    public static class Extensions
+    public static partial class Extensions
     {
         /// <summary>
         /// 如果一个对象为null，则抛出异常
@@ -60,7 +58,7 @@ namespace System
         /// <exception cref="ArgumentNullException"></exception>
         public static void ThrowIfNullOrEmpty<T>(this List<T> list, string paramName)
         {
-            if(list == null || list.Count == 0)
+            if (list == null || list.Count == 0)
                 throw new ArgumentNullException(paramName);
         }
 
@@ -82,6 +80,16 @@ namespace System
         public static DirectoryInfo ToDirectoryInfo(this string path)
         {
             return new DirectoryInfo(path);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string[] Lines(this string str)
+        {
+            return str.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
     }
 }

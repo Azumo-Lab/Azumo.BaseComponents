@@ -101,21 +101,35 @@ namespace System
             return str;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="consoleText"></param>
         public static void Write(ConsoleText[] consoleText)
         {
+            bool isColor = false;
             foreach (ConsoleText item in consoleText)
             {
                 if (item.Color == null)
-                    Console.ResetColor();
+                {
+                    if (isColor)
+                    {
+                        Console.ResetColor();
+                        isColor = false;
+                    }
+                }
                 else
+                {
                     Console.ForegroundColor = item.Color.Value;
+                    isColor = true;
+                }
                 Console.Write(item.Text);
             }
             Console.ResetColor();
         }
 
         /// <summary>
-        /// 
+        /// 读取键盘按键
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
@@ -128,7 +142,7 @@ namespace System
         }
 
         /// <summary>
-        /// 
+        /// 菜单选择
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="title"></param>
@@ -141,8 +155,19 @@ namespace System
             int index = 0;
             int mouse = 5;
 
-            int HZero = 0;
+            if (!string.IsNullOrEmpty(title))
+                Console.WriteLine(Space() + title);
+            if (!string.IsNullOrEmpty(text))
+                Console.WriteLine(Space() + text);
+
+            // 显示菜单项目
+            foreach (T item in menuItem)
+                Console.WriteLine($"{Space()}[ ] {item?.ToString() ?? "NULL"}");
+
+            // 设置光标原点
+            int HZero = Console.CursorTop - menuItem.Count + index;
             int WZero = mouse + 1;
+            Update();
 
             string Space()
             {
@@ -151,16 +176,6 @@ namespace System
                     result += " ";
                 return result;
             }
-
-            Console.WriteLine(Space() + title);
-            Console.WriteLine(Space() + text);
-            // 显示菜单项目
-            foreach (T item in menuItem)
-                Console.WriteLine($"{Space()}[ ] {item?.ToString() ?? "NULL"}");
-
-            // 设置光标原点
-            HZero = Console.CursorTop - menuItem.Count + index;
-            Update();
 
             void Clear()
             {

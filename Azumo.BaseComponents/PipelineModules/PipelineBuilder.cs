@@ -26,7 +26,7 @@ namespace Azumo.BaseComponents.PipelineModules
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class PipelineBuilder<T> : IPipelineBuilder<T> where T : IPipelineResult
+    public class PipelineBuilder<T> : IPipelineBuilder<T>
     {
         /// <summary>
         /// 
@@ -76,9 +76,9 @@ namespace Azumo.BaseComponents.PipelineModules
                 PipelineDelegate<T> pipelineDelegate = (input) => Task.CompletedTask;
                 List<Func<PipelineDelegate<T>, PipelineDelegate<T>>> funcs = new List<Func<PipelineDelegate<T>, PipelineDelegate<T>>>();
                 foreach (IPipelineProcess<T> item in _PipelineProcesses)
-                    funcs.Add((next) => async (input) => 
-                    { 
-                        await item.ExecuteAsync(input, next); 
+                    funcs.Add((next) => async (input) =>
+                    {
+                        await item.ExecuteAsync(input, next);
                     });
                 foreach (Func<PipelineDelegate<T>, PipelineDelegate<T>> item in funcs.Reverse<Func<PipelineDelegate<T>, PipelineDelegate<T>>>())
                     pipelineDelegate = item(pipelineDelegate);

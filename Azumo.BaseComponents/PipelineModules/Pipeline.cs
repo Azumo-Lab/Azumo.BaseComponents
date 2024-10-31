@@ -15,9 +15,6 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Azumo.BaseComponents.PipelineModules
@@ -26,7 +23,7 @@ namespace Azumo.BaseComponents.PipelineModules
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    internal class Pipeline<T> : IPipeline<T> where T : IPipelineResult
+    internal class Pipeline<T> : IPipeline<T>
     {
         private readonly PipelineDelegate<T> _PipelineDelegate;
 

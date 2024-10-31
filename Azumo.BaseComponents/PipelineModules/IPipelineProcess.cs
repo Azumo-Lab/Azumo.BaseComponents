@@ -22,7 +22,7 @@ namespace Azumo.BaseComponents.PipelineModules
     /// <summary>
     /// 
     /// </summary>
-    public interface IPipelineProcess<T> where T : IPipelineResult
+    public interface IPipelineProcess<T>
     {
         /// <summary>
         /// 

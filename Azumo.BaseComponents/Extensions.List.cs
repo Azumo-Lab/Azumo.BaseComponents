@@ -15,13 +15,32 @@
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //-----------------------------------------------------------------------------------------------
-namespace Azumo.BaseComponents.PipelineModules
-{
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IPipelineResult
-    {
+using System.Collections.Generic;
 
+namespace System
+{
+    public static partial class Extensions
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static bool OnlyOne<T>(this List<T> list)
+        {
+            return list.Count == 1;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static bool IsEmpty<T>(this List<T> list)
+        {
+            return list.Count == 0;
+        }
     }
 }
