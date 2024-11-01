@@ -91,5 +91,45 @@ namespace System
         {
             return str.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumItem"></param>
+        /// <returns></returns>
+        public static int ToInt<T>(this T enumItem) where T : Enum
+        {
+            int? result = enumItem as int?;
+            if (result == null)
+                return 0;
+            return result.Value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static int ToInt(this string str)
+        {
+            if (int.TryParse(str, out int result))
+                return result;
+            return 0;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool ToBool(this string str)
+        {
+            if (bool.TryParse(str, out bool result))
+            {
+                return result;
+            }
+            return false;
+        }
     }
 }

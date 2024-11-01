@@ -29,7 +29,12 @@ namespace Azumo.BaseComponents
         /// <summary>
         /// 
         /// </summary>
-        private static string Path { get; } = "config";
+        private const string PATH = "config";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static bool ChangeFlag = false;
 
         /// <summary>
         /// 
@@ -39,32 +44,21 @@ namespace Azumo.BaseComponents
         /// <summary>
         /// 
         /// </summary>
-        public static void Initialize()
+        static SimpleConfigurationFile()
         {
-            using (StreamReader sr = new StreamReader(new FileStream(Path, FileMode.OpenOrCreate)))
+            if (File.Exists(PATH))
             {
-                string line = sr.ReadLine();
-                var strs = line.Split('=', options: StringSplitOptions.RemoveEmptyEntries);
-                if (strs.Length == 1)
-                    _Configs.Add(strs[0], string.Empty);
-
-                if (strs.Length == 2)
+                using (FileStream fileStream = new FileStream(PATH, FileMode.Open))
                 {
-                    bool flag = false;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    foreach (char item in strs[1])
+                    while (fileStream.Position < fileStream.Length)
                     {
-                        if (item == '"')
-                        {
-                            flag = !flag;
-                            continue;
-                        }
-                        if (flag)
-                            stringBuilder.Append(item);
+                        int keySize = fileStream.ReadInt();
+                        string keyStr = Encoding.BigEndianUnicode.GetString(fileStream.ReadBytes(keySize));
+                        int valueSize = fileStream.ReadInt();
+                        string valueStr = Encoding.BigEndianUnicode.GetString(fileStream.ReadBytes(valueSize));
+
+                        _Configs.Add(keyStr, valueStr);
                     }
-                    if (flag)
-                        throw new FormatException("Invalid format");
-                    _Configs.Add(strs[0], stringBuilder.ToString());
                 }
             }
         }
@@ -90,20 +84,27 @@ namespace Azumo.BaseComponents
                 _Configs[key] = value;
             else
                 _Configs.Add(key, value);
+            ChangeFlag = true;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public static void End()
+        public static void SaveChange()
         {
-            using (StreamWriter sw = new StreamWriter(new FileStream(Path, FileMode.OpenOrCreate)))
-            {
-                foreach (var item in _Configs)
+            if(ChangeFlag)
+                using (FileStream fileStream = new FileStream(PATH, FileMode.OpenOrCreate))
                 {
-                    sw.WriteLine(item.Key + "=\"" + item.Value + "\"");
+                    foreach (var item in _Configs)
+                    {
+                        byte[] keyBytes = Encoding.BigEndianUnicode.GetBytes(item.Key);
+                        byte[] valueBytes = Encoding.BigEndianUnicode.GetBytes(item.Value);
+                        fileStream.WriteInt(keyBytes.Length);
+                        fileStream.WriteBytes(keyBytes);
+                        fileStream.WriteInt(valueBytes.Length);
+                        fileStream.WriteBytes(valueBytes);
+                    }
                 }
-            }
         }
     }
 }

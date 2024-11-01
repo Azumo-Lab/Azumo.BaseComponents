@@ -22,7 +22,7 @@ namespace TestProject1
 
             SimpleConfigurationFile.Initialize();
             SimpleConfigurationFile.Write("TestResult", result.Result);
-            SimpleConfigurationFile.End();
+            SimpleConfigurationFile.SaveChange();
         }
     }
 
