@@ -218,5 +218,30 @@ namespace System
                 }
             }
         }
+
+        public class DownloadProgress
+        {
+            public long TotalBytes { get; set; }
+            public long ReceivedBytes { get; set; }
+
+            private const string InitText = "========== ";
+
+            public DownloadProgress(long totalBytes)
+            {
+                TotalBytes = totalBytes;
+                Console.Write(InitText);
+            }
+
+            public void Show(long receivedBytes)
+            {
+                ReceivedBytes = receivedBytes;
+                int percent = (int)(ReceivedBytes / TotalBytes * 100);
+                Console.SetCursorPosition(percent, Console.CursorTop);
+                Console.Write(">");
+                Console.SetCursorPosition(InitText.Length, Console.CursorTop);
+                Console.Write((ReceivedBytes / TotalBytes * 100) + "%");
+                Console.Write("       ");
+            }
+        }
     }
 }
